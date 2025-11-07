@@ -1,8 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import LoginForm from "./LoginForm";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
 import { setupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
 import {
@@ -29,9 +28,11 @@ const API = "https://hotel.foothilltech.net";
 const server = setupServer(
   http.post(`${API}/api/auth/authenticate`, async ({ request }) => {
     const body = (await request.json()) as LoginRequestBody;
-    if (body.username === "hasan" && body.password === "1234") {
+
+    if (body.username === "admin" && body.password === "admin") {
       return HttpResponse.json<LoginResponseBody>({ token: "test" });
     }
+
     return HttpResponse.json(
       { error: "Invalid username or password" },
       { status: 401 }
@@ -113,5 +114,25 @@ describe("LoginForm Tests", () => {
       expect(console.log).toHaveBeenCalled();
     });
   });
+  test("shows error message on invalid login", async () => {
+    render(
+      <MemoryRouter>
+        <LoginForm />
+      </MemoryRouter>
+    );
 
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "wrong" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "wrong" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+    await waitFor(() => {
+      expect(
+        screen.getByText(/invalid username or password/i)
+      ).toBeInTheDocument();
+    });
+  });
 });

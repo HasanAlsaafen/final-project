@@ -38,6 +38,7 @@ function LoginForm() {
       return errors;
     },
     onSubmit: (values: LoginFormValues) => {
+      console.log("Submitting form with values");
       fetch(`${API}/api/auth/authenticate`, {
         method: "POST",
         headers: {
@@ -45,15 +46,17 @@ function LoginForm() {
         },
         body: JSON.stringify(values),
       })
-        .then((response) => response.json())
-        .then((data: LoginResponse) => {
-          console.log("Success:", data);
-          if (data?.status === 401) setInvalidLogin(true);
-          else {
-            localStorage.setItem("token", data.authentication);
-            localStorage.setItem("userType", data.userType);
-            navigate("/Home");
+        .then(async (response) => {
+          const data = await response.json();
+          formik.resetForm();
+          if (response.status === 401) {
+            setInvalidLogin(true);
+            return;
           }
+
+          localStorage.setItem("token", data.authentication);
+          localStorage.setItem("userType", data.userType);
+          navigate("/Home");
         })
         .catch((error) => {
           console.error("Error:", error);
