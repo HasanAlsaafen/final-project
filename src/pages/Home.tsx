@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useEffect } from "react";
-
+import FeaturedDeals from "../components/featureddeals/FeaturedDeals";
 function Home() {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
@@ -21,6 +21,7 @@ function Home() {
     <div>
       <NavBar />
       <Searchbar />
+      <FeaturedDeals />
     </div>
   );
 }

@@ -99,10 +99,10 @@ export default function Searchbar() {
         </p>
       </div>
 
-      <article className="relative z-10 w-full pb-6 px-4 max-w-4xl">
+      <article className="relative z-10 w-full  pb-3 md:pb-6  px-4 max-w-4xl">
         <form
           onSubmit={formik.handleSubmit}
-          className="flex bg-white bg-opacity-90 rounded-xl p-4 space-y-4 justify-center items-center md:space-y-0 md:space-x-4 md:flex-row flex-col"
+          className="flex bg-white bg-opacity-90 rounded-xl p-4 space-y-2 justify-center items-center md:space-y-0 md:space-x-4 md:flex-row flex-col"
         >
           <div>
             <label htmlFor="location">Location</label>
