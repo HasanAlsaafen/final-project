@@ -7,11 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-  "test": "vitest",
-  "test:ui": "vitest --ui",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.5",
     "@tailwindcss/vite": "^4.1.16",
     "formik": "^2.4.6",
     "react": "^19.1.1",

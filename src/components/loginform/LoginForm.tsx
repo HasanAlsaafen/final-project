@@ -3,21 +3,20 @@ import { BiShow } from "react-icons/bi";
 import { useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { useFormik } from "formik";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 interface LoginFormValues {
   username: string;
   password: string;
 }
-interface LoginResponse {
-  authentication: string;
-  userType: string;
-  status?: number;
-}
+
 const API = "https://hotel.foothilltech.net";
 function LoginForm() {
   const [show, setShow] = useState(true);
   const [invalidLogin, setInvalidLogin] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const formik = useFormik<LoginFormValues>({
     initialValues: {
       username: "",
@@ -54,8 +53,7 @@ function LoginForm() {
             return;
           }
 
-          localStorage.setItem("token", data.authentication);
-          localStorage.setItem("userType", data.userType);
+          login(data.authentication, data.userType);
           navigate("/Home");
         })
         .catch((error) => {

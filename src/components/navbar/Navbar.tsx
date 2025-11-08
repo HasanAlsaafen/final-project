@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineTravelExplore } from "react-icons/md";
-import { CiBellOn } from "react-icons/ci";
 import { PiListThin } from "react-icons/pi";
-
+import { AuthContext } from "../../contexts/AuthContext";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Switch from "@mui/material/Switch";
 function Navbar() {
+  const { logout } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const [accountClicked, setAccountClicked] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
+
   useEffect(() => {
     if (!open) return;
 
@@ -21,7 +29,9 @@ function Navbar() {
   };
 
   return (
-    <nav className="p-4 w-full shadow-md flex items-center justify-between bg-white sticky top-0 z-50">
+    <nav
+      className={`p-4 w-full shadow-md flex items-center justify-between bg-white sticky top-0 z-50`}
+    >
       <button
         className="block md:hidden z-20"
         aria-label={open ? "Close menu" : "Open menu"}
@@ -33,9 +43,8 @@ function Navbar() {
       </button>
       <header className="flex items-center space-x-2">
         <MdOutlineTravelExplore className="text-2xl text-blue-400" />
-        <h1 className="text-xl font-bold font-serif">Voyage</h1>
+        <h1 className="text-2xl font-bold font-playfair">Voyage</h1>
       </header>
-
       <ul
         id="mobile-menu"
         className={`fixed top-0 pt-15 left-0 h-full w-2/3 bg-white shadow-lg flex flex-col items-start p-6 space-y-6 transform transition-transform duration-300 ease-in-out
@@ -56,17 +65,61 @@ function Navbar() {
           Trending destinations
         </li>
       </ul>
-
       <article className="flex items-center space-x-4">
-        <button className="h-10 w-10 bg-gray-50 rounded-full shadow hover:bg-gray-100 flex items-center justify-center">
-          <CiBellOn className="text-2xl text-gray-600" aria-hidden="true" />
-        </button>
-        <img
-          src="https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-avatar-placeholder-abstract-white-blue-green-png-image_3918476.jpg"
-          alt="Profile"
-          className="h-10 w-10 rounded-full object-cover"
-        />
+        <div className="flex items-center space-x-2"></div>
+        <div className="relative">
+          <img
+            src="https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-avatar-placeholder-abstract-white-blue-green-png-image_3918476.jpg"
+            alt="Profile"
+            className="h-10 w-10 rounded-full object-cover"
+            onClick={() => setAccountClicked((aC) => !aC)}
+          />
+        </div>
+        {accountClicked && (
+          <div className="absolute top-12 right-0 bg-white border border-gray-200 rounded shadow-md w-48">
+            <button
+              className="w-full text-left px-4 py-2 hover:bg-gray-100"
+              onClick={handleOpen}
+            >
+              Log out
+            </button>
+          </div>
+        )}
       </article>
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 bg-white border border-gray-300 rounded-lg p-6 shadow-lg">
+            <h2 id="modal-modal-title" className="text-lg font-semibold mb-4">
+              Confirm Logout
+            </h2>
+            <p
+              id="modal-modal-description"
+              className="text-sm text-gray-600 mb-6"
+            >
+              Are you sure you want to log out?
+            </p>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                onClick={logout}
+              >
+                Yes, log out
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 ml-2"
+                onClick={handleClose}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </Box>
+      </Modal>
     </nav>
   );
 }

@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Libertinus+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Libertinus+Math&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+.font-jakarta {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 400;
+}
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+.font-playfair {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+}
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.searchbar {
+  background-image: url("https://images.pexels.com/photos/30929079/pexels-photo-30929079.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  height: 70vh;
+}
