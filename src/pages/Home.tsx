@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useEffect } from "react";
 import FeaturedDeals from "../components/featureddeals/FeaturedDeals";
+import TrendingDestination from "../components/trendingdestination/TrendingDestination";
+import Footer from "../components/footer/Footer";
 function Home() {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
@@ -22,6 +24,8 @@ function Home() {
       <NavBar />
       <Searchbar />
       <FeaturedDeals />
+      <TrendingDestination />
+      <Footer />
     </div>
   );
 }

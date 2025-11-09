@@ -39,6 +39,7 @@ function FeaturedDeals() {
       }
     }
     fetchData();
+    return;
   }, []);
 
   if (error)
