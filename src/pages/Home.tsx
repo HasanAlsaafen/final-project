@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import FeaturedDeals from "../components/featureddeals/FeaturedDeals";
 import TrendingDestination from "../components/trendingdestination/TrendingDestination";
 import Footer from "../components/footer/Footer";
+import { MdOutlineTravelExplore } from "react-icons/md";
 function Home() {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthContext);
@@ -21,7 +22,21 @@ function Home() {
   }
   return (
     <div>
-      <NavBar />
+      <NavBar
+        Header={
+          <header className="flex items-center space-x-2">
+            <MdOutlineTravelExplore className="text-2xl text-blue-400" />
+            <h1 className="text-2xl font-bold font-playfair">Voyage</h1>
+          </header>
+        }
+        List={[
+          "Home",
+          "Featured deals",
+          "Recently viewd hotels",
+          "Trending destinations",
+        ]}
+        Account={true}
+      />
       <Searchbar />
       <FeaturedDeals />
       <TrendingDestination />

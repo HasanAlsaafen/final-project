@@ -1,11 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import { MdOutlineTravelExplore } from "react-icons/md";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { PiListThin } from "react-icons/pi";
 import { AuthContext } from "../../contexts/AuthContext";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Switch from "@mui/material/Switch";
-function Navbar() {
+interface NavProps {
+  Header: ReactElement;
+  List: string[];
+  Account?: boolean;
+}
+function Navbar({ Header, List, Account = true }: NavProps) {
   const { logout } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [accountClicked, setAccountClicked] = useState(false);
@@ -32,49 +35,50 @@ function Navbar() {
     <nav
       className={`p-4 w-full shadow-md flex items-center justify-between bg-white sticky top-0 z-50`}
     >
-      <button
-        className="block md:hidden z-20"
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
-        aria-controls="mobile-menu"
-        onClick={handleToggle}
-      >
-        <PiListThin className="text-3xl text-gray-700 cursor-pointer" />
-      </button>
-      <header className="flex items-center space-x-2">
-        <MdOutlineTravelExplore className="text-2xl text-blue-400" />
-        <h1 className="text-2xl font-bold font-playfair">Voyage</h1>
-      </header>
-      <ul
-        id="mobile-menu"
-        className={`fixed top-0 pt-15 left-0 h-full w-2/3 bg-white shadow-lg flex flex-col items-start p-6 space-y-6 transform transition-transform duration-300 ease-in-out
+      {List.length ? (
+        <button
+          className="block md:hidden z-20"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          onClick={handleToggle}
+        >
+          <PiListThin className="text-3xl text-gray-700 cursor-pointer" />
+        </button>
+      ) : null}
+
+      {Header}
+      {List.length ? (
+        <ul
+          id="mobile-menu"
+          className={`fixed top-0 pt-15 left-0 h-full w-2/3 bg-white shadow-lg flex flex-col items-start p-6 space-y-6 transform transition-transform duration-300 ease-in-out
         ${
           open ? "translate-x-0" : "-translate-x-full"
         } md:static md:flex md:flex-row md:space-y-0 md:space-x-6 md:p-0 md:shadow-none md:translate-x-0`}
-      >
-        <li tabIndex={0} className="cursor-pointer hover:text-blue-500">
-          Home
-        </li>
-        <li tabIndex={0} className="cursor-pointer hover:text-blue-500">
-          Featured deals
-        </li>
-        <li tabIndex={0} className="cursor-pointer hover:text-blue-500">
-          Recently visited hotels
-        </li>
-        <li tabIndex={0} className="cursor-pointer hover:text-blue-500">
-          Trending destinations
-        </li>
-      </ul>
+        >
+          {List.map((item, index) => (
+            <li
+              tabIndex={0}
+              className="cursor-pointer hover:text-blue-500"
+              key={index}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
       <article className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2"></div>
-        <div className="relative">
-          <img
-            src="https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-avatar-placeholder-abstract-white-blue-green-png-image_3918476.jpg"
-            alt="Profile"
-            className="h-10 w-10 rounded-full object-cover"
-            onClick={() => setAccountClicked((aC) => !aC)}
-          />
-        </div>
+        {Account && (
+          <div className="relative">
+            <img
+              src="https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-avatar-placeholder-abstract-white-blue-green-png-image_3918476.jpg"
+              alt="Profile"
+              className="h-10 w-10 rounded-full object-cover"
+              onClick={() => setAccountClicked((aC) => !aC)}
+            />
+          </div>
+        )}
         {accountClicked && (
           <div className="absolute top-12 right-0 bg-white border border-gray-200 rounded shadow-md w-48">
             <button

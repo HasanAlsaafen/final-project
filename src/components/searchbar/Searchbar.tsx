@@ -2,14 +2,15 @@ import React from "react";
 import "../../app.css";
 import { useFormik } from "formik";
 const token = localStorage.getItem("token") || "";
-
+import { useNavigate } from "react-router-dom";
+import type { Rooms } from "../filterresults/FilterResults";
 export default function Searchbar() {
   const Today = new Date();
   const Tomorrow = new Date();
   Tomorrow.setDate(Today.getDate() + 1);
 
   const API = "https://hotel.foothilltech.net/api/home/search";
-
+  const navigate = useNavigate();
   interface SearchParams {
     checkInDate: string;
     checkOutDate: string;
@@ -51,7 +52,6 @@ export default function Searchbar() {
     }
 
     const data = await response.json();
-    console.log("Search results:", data);
     return data;
   }
 
@@ -67,7 +67,7 @@ export default function Searchbar() {
 
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const results = await searchHotels({
+        const results: Rooms = await searchHotels({
           checkInDate: values.checkin,
           checkOutDate: values.checkout,
           city: values.location,
@@ -76,9 +76,7 @@ export default function Searchbar() {
           adults: values.adults,
           children: values.children,
         });
-        console.log("Results:", results);
-
-        alert(`Found ${results.length || 0} hotels`);
+        navigate("/searchresults", { state: { results: results } });
       } catch (e: any) {
         console.error("Error:", e.message);
         alert("Failed to fetch hotels. Please try again.");

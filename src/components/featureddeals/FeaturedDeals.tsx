@@ -25,21 +25,24 @@ function FeaturedDeals() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchData() {
       try {
         setLoading(true);
         const response = await fetch(API);
         if (!response.ok) throw new Error("An error occurred!");
         const results: Hotel[] = await response.json();
-        setHotels(results);
+        if (isMounted) setHotels(results);
       } catch (e: any) {
-        setError(e.message);
+        if (isMounted) setError(e.message);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
     fetchData();
-    return;
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (error)
