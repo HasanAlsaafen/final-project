@@ -21,7 +21,8 @@
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.5",
-    "tailwindcss": "^4.1.16"
+    "tailwindcss": "^4.1.16",
+    "use-immer": "^0.11.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.28.5",

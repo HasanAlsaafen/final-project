@@ -19,6 +19,7 @@ function TrendingDestination() {
   const [loading, setLoading] = useState<boolean>();
   const [error, setError] = useState<string | null>();
   useEffect(() => {
+    let isMounted = true;
     async function fetchData() {
       try {
         setLoading(true);
@@ -28,14 +29,17 @@ function TrendingDestination() {
           throw new Error("An error occured");
         }
         const results: TrendingDestinationResponse[] = await response.json();
-        setTrends(results);
+        if (isMounted) setTrends(results);
       } catch (e: any) {
-        setError(e.message);
+        if (isMounted) setError(e.message);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, []);
   {
     if (error)
